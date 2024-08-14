@@ -28,3 +28,7 @@ docker service update --update-delay 5s --rollback-monitor 10s myhello1
 ```bash
 docker service update --image lirf233/hello:1.0.1 myhello1
 ```
+### 4)服务回滚
+```bash
+docker service update --rollback myhello1
+```
