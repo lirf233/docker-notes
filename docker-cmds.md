@@ -4,7 +4,7 @@
 ```bash
 docker service create --name myhello --punlish=81,target=80 --replicas 3 lirf233/hello:1.0.0
 ```
-### 2)部署带更新和回滚策略的应用
+### 2) 部署带更新和回滚策略的应用
 ```bash
 docker service create \
 --name myhello1 \
@@ -24,11 +24,11 @@ docker service inspect --pretty myhello1
 #启动后更新策略配置
 docker service update --update-delay 5s --rollback-monitor 10s myhello1
 ```
-### 3)服务更新
+### 3) 服务更新
 ```bash
 docker service update --image lirf233/hello:1.0.1 myhello1
 ```
-### 4)服务回滚
+### 4) 服务回滚
 ```bash
 docker service update --rollback myhello1
 ```
