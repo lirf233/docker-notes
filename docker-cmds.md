@@ -17,6 +17,5 @@ docker service create \
 --rollback-parallelism 2 \
 --rollback-monitor 10s \
 --rollback-max-failure-ratio 0.2 \
-
 lirf233/hello:1.0.0
 ```
