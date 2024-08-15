@@ -1,4 +1,4 @@
-# docker常用命令示例
+# docker部署示例
 ## 在集群上部署应用
 ### 1）简单部署
 ```bash
@@ -31,4 +31,67 @@ docker service update --image lirf233/hello:1.0.1 myhello1
 ### 4) 服务回滚
 ```bash
 docker service update --rollback myhello1
+```
+## 结合docker-compose.yml在集上群部署应用
+### docker-compose.yml文件
+```yml
+version: "3.7"
+services:
+    myhello2:
+        image: lirf233/hello:1.0.0
+        port:
+            - "83:80"
+        depends_on:
+            - redis
+        deploy:
+            mode: replicated
+            replicas: 20
+            endpoint_mode: vip
+            rollback_config:
+                parallelism: 2
+                delay: 10s
+                monitor: 10s
+                max_failure_ratio: 0.2
+            update_config:
+                parallelism: 2
+                delay: 5s
+                failure_action: continue
+    redis:
+        image: redis:alpine
+        deploy:
+            mode: replicated
+            replicas: 6
+            endpoint_mode: dnsrr
+            labels:
+                description: "This redis service label"
+            resources:
+                limits:
+                    cpus: '0.50'
+                    memory: 50M
+                reservatiobns:
+                    cpus: '0.25'
+                    memory: 20M
+                restart_policy:
+                    condition: on-failure
+                    delay: 5s
+                    max_attempts: 3
+                    window: 120s
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ```
