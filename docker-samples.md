@@ -33,7 +33,7 @@ docker service update --image lirf233/hello:1.0.1 myhello1
 docker service update --rollback myhello1
 ```
 ## 结合docker-compose.yml在集上群部署应用
-### docker-compose.yml文件
+### 1) docker-compose.yml文件
 ```yml
 version: "3.7"
 services:
@@ -76,4 +76,8 @@ services:
                 delay: 5s
                 max_attempts: 3
                 window: 120s
+```
+### 2) 部署、更新（配置文件更新）命令
+```bash
+ docker stack deploy -c swarm-compose.yml mystack
 ```
