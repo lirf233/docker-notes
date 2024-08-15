@@ -76,22 +76,4 @@ services:
                     delay: 5s
                     max_attempts: 3
                     window: 120s
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 ```
