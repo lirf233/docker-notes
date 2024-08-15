@@ -39,7 +39,7 @@ version: "3.7"
 services:
     myhello2:
         image: lirf233/hello:1.0.0
-        port:
+        ports:
             - "83:80"
         depends_on:
             - redis
