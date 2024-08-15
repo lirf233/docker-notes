@@ -68,7 +68,7 @@ services:
                 limits:
                     cpus: '0.50'
                     memory: 50M
-                reservatiobns:
+                reservations:
                     cpus: '0.25'
                     memory: 20M
                 restart_policy:
