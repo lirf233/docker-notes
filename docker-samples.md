@@ -81,3 +81,15 @@ services:
 ```bash
  docker stack deploy -c swarm-compose.yml mystack
 ```
+## 容器编排
+### 1）创建容器配置
+```bash
+docker config create gateway-conf config.yml
+```
+### 2）更新服务配置
+```bash
+docker service update gateway --config-rm gateway-conf --config-add gateway-conf-new,target=/app/config.yaml  
+```
+
+
+
