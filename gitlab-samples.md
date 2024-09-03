@@ -5,7 +5,7 @@ docker run -d -p 5000:5000 --name registry --restart=always registry:2
 ```
 ## 2. 修改每台主机的host文件
 ```bash
-1.2.3.4 myhub.docker.com
+192.168.x.x myhub.docker.com
 ```
 ## 3. 修改每台主机的docker配置文件
 ```bash
@@ -19,6 +19,11 @@ sudo systemctl restart docker
 ```
 
 ## 4. 将所需要的镜像拉取至私有注册镜像仓库
+## 5. 启动gitlab-ce
+```bash
+docker run -d --hostname 192.168.x.x -p 80:80 --name gitlab-ce myhub.docker.com:5000/gitlab-ce:latest 
+```
+
 
 
 
