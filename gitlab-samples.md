@@ -67,6 +67,13 @@ docker run --rm -it -v /src/gitlab-runner/config:/etc/gitlab-runner myhub.docker
 #executor 选择 docker
 #default Docker image选择：myhub.docker.com:5000/ubuntu:latest
 ```
+## 9. 修改gitlab-runner在宿主机上的配置
+```bash
+#sudo nvim /srv/gitlab-runner/config/config.toml
+volumes = ["/var/run/docker.sock:/var/run/docker.sock","/cache"]
+```
+
+
 ## 以下为实际部署时候的情况，供参考
 
 ### *. 零声教程（不一定正确，仅供参考
