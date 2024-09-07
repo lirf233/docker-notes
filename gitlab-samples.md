@@ -56,12 +56,66 @@ myhub.docker.com:5000/gitlab-runner:latest
 ## 8. 注册gitlab-runner
 ```bash
 docker run --rm -it -v /src/gitlab-runner/config:/etc/gitlab-runner myhub.docker.com:5000/gitlab-runner register
+#填写gitlab实例
+#http://192.168.254.131
+#http://192.168.254.135
+#http://192.168.254.139
+#输入runner注册码
+#输入描述信息，举例：The builder，The tester，The deployer等；
+#输入tag，举例：builder，tester，deployer等；
+#输入maintenance运维说明；
+#executor 选择 docker
+#default Docker image选择：myhub.docker.com:5000/ubuntu:latest
 ```
+## 以下为实际部署时候的情况，供参考
+
+### *. 零声教程（不一定正确，仅供参考
+```bash
+docker run -d --hostname 192.168.254.135 \
+-p 443:443 -p 80:80 --name gitlab-ce \
+--restart always \
+-v $HOME/work/gitlab/config:/etc/gitlab \
+-v $HOME/work/gitlab/logs:/var/log/gitlab \
+-v $HOME/work/gitlab/data:/var/opt/gitlab \
+--shm-size 256m \
+gitlab/gitlab-ce:16.2.4-ce.0
+
+docker pull quay.io/0voice/gitlab/gitlab-runner:v16.2.1
+
+docker run -d --name gitlab-runner1 --restart always \
+-v /srv/gitlab-runner/config:/etc/gitlab-runner \
+-v /var/run/docker.sock:/var/run/docker.sock \
+gitlab/gitlab-runner:v16.2.1
 
 
+docker exec gitlab-runner1 gitlab-runner -v
 
+gitlab-runner register  --url http://192.168.254.135 \
+--token glrt-ACXbFYRcw1z9xYsU8_kX \
 
+docker run --rm -it -v /src/gitlab-runner/config:/etc/gitlab-runner gitlab/gitlab-runner:v16.2.1 register \
+-n \
+--url "http://192.168.254.135" \
+--token "glrt-ACXbFYRcw1z9xYsU8_kX" \
+--name "gitlab-runner1" \
+--executor docker \
+--docker-image docker:24.0.5 \
+--docker-volumes /var/run/docker.sock:/var/run/docker.sock \
+--docker-pull-policy if-not-present
+```
+### 解决连接不上runner的解决方法
 
+ https://gitlab.com/gitlab-org/gitlab-runner/-/issues/29285
 
-
-
+```bash
+docker run gitlab/gitlab-runner verify
+```
+```bash
+docker run -d --name gitlab-runner --restart always \
+  -v /srv/gitlab-runner/config:/etc/gitlab-runner \
+  -v /var/run/docker.sock:/var/run/docker.sock \
+  gitlab/gitlab-runner:latest
+```
+```bash
+docker run --rm -it -v /srv/gitlab-runner/config:/etc/gitlab-runner gitlab/gitlab-runner register
+```
